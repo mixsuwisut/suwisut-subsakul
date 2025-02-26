@@ -1,0 +1,100 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPc7CJd/VIBX/lpQTaSv/rU",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/mixsuwisut/suwisut-subsakul/blob/main/gui\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "jYhzCSvLUing"
+      },
+      "outputs": [],
+      "source": [
+        "import tkinter as tk\n",
+        "from tkinter import messagebox\n",
+        "import math\n",
+        "\n",
+        "def calculate_current():\n",
+        "    try:\n",
+        "        voltage = entry_voltage.get()\n",
+        "        resistance = entry_resistance.get()\n",
+        "        power = entry_power.get()\n",
+        "\n",
+        "        voltage = float(voltage) if voltage else None\n",
+        "        resistance = float(resistance) if resistance else None\n",
+        "        power = float(power) if power else None\n",
+        "\n",
+        "        if voltage is not None and resistance is not None:\n",
+        "            current = voltage / resistance\n",
+        "        elif power is not None and voltage is not None:\n",
+        "            current = power / voltage\n",
+        "        elif power is not None and resistance is not None:\n",
+        "            current = math.sqrt(power / resistance)\n",
+        "        else:\n",
+        "            messagebox.showerror(\"ข้อผิดพลาด\", \"กรุณาป้อนค่าที่เพียงพอสำหรับการคำนวณ\")\n",
+        "            return\n",
+        "\n",
+        "        label_result.config(text=f\"กระแสไฟฟ้า (I) = {current:.2f} แอมแปร์\")\n",
+        "    except ValueError:\n",
+        "        messagebox.showerror(\"ข้อผิดพลาด\", \"กรุณาป้อนค่าตัวเลขที่ถูกต้อง\")\n",
+        "\n",
+        "# สร้าง GUI\n",
+        "root = tk.Tk()\n",
+        "root.title(\"คำนวณกระแสไฟฟ้า\")\n",
+        "\n",
+        "frame = tk.Frame(root)\n",
+        "frame.pack(pady=20)\n",
+        "\n",
+        "# อินพุต\n",
+        "label_voltage = tk.Label(frame, text=\"แรงดันไฟฟ้า (V):\")\n",
+        "label_voltage.grid(row=0, column=0)\n",
+        "entry_voltage = tk.Entry(frame)\n",
+        "entry_voltage.grid(row=0, column=1)\n",
+        "\n",
+        "label_resistance = tk.Label(frame, text=\"ความต้านทาน (R):\")\n",
+        "label_resistance.grid(row=1, column=0)\n",
+        "entry_resistance = tk.Entry(frame)\n",
+        "entry_resistance.grid(row=1, column=1)\n",
+        "\n",
+        "label_power = tk.Label(frame, text=\"กำลังไฟฟ้า (P):\")\n",
+        "label_power.grid(row=2, column=0)\n",
+        "entry_power = tk.Entry(frame)\n",
+        "entry_power.grid(row=2, column=1)\n",
+        "\n",
+        "# ปุ่มคำนวณ\n",
+        "button_calculate = tk.Button(frame, text=\"คำนวณ\", command=calculate_current)\n",
+        "button_calculate.grid(row=3, columnspan=2, pady=10)\n",
+        "\n",
+        "# แสดงผลลัพธ์\n",
+        "label_result = tk.Label(root, text=\"\")\n",
+        "label_result.pack()\n",
+        "\n",
+        "root.mainloop()\n"
+      ]
+    }
+  ]
+}
